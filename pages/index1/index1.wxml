@@ -1,6 +1,12 @@
 <view>
-  <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
-        disabled="{{disabled}}" bindtap="primary"> 扫一扫 </button>
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  
   <view>当前设备号：</view>
   <view>{{show}}</view>
   <view>选择使用时常：</view>
@@ -12,7 +18,7 @@
     <view class="weui-cells__title">数字输入的input</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
-        <input class="weui-input" type="number" bindinput="numberInput" placeholder="这是一个数字输入框" />
+        <input class="weui-input" type="number" bindinput="numberInput" placeholder="这是一个数字输入框" maxlength="5"/>
       </view>
     </view>
   </view>
@@ -21,5 +27,7 @@
 
 
   <view>计费规则</view>
+  <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
+        disabled="{{disabled}}" bindtap="scanQRCode"> 扫一扫 </button>
 
 </view>

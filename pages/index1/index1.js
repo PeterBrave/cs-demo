@@ -1,10 +1,15 @@
 // pages/index1/index1.js
+//获取应用实例
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     defaultSize: 'default',
     primarySize: 'default',
     warnSize: 'default',
@@ -13,14 +18,50 @@ Page({
     loading: false,
     show: "",
     numbers: "",
-    arr: [30,60,90,120]
+    arr: [30, 60, 90, 120]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('onLoad')
+    console.log('onLoad');
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
+  },
+  getUserInfo: function () {
+    wx.getUserInfo({
+      success: res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    })
   },
 
 
@@ -74,38 +115,44 @@ Page({
 
   },
 
-  primary: function () {
+  scanQRCode: function () {
     var that = this;
     var show;
     wx.scanCode({
       success: (res) => {
-        this.show = res.result;
-        that.setData({
-          show: this.show
-        })
-        wx.showToast({
-          title: '成功',
-          icon: 'success',
-          duration: 2000
-        })
+        console.log("扫码结果： ");
+        console.log(res);
+        //对res进行预处理
+        var result = res.result;
+        if (result.match(/^(http:\/\/www.mobike.com\/download\/app.html)/)) {
+          result = result.match(/(?<=\?b=).*/);
+          this.setData({
+            show: result
+          })
+        } else {
+          wx.showModal({
+            title: "提示",
+            content: "请扫描车身或者车锁上的二维码",
+            showCancel: false,
+            confirmText: "确定",
+            success: function (res) {
+              console.log(res)
+            }
+          })
+        }
       },
       fail: (res) => {
-        wx.showToast({
-          title: '失败',
-          icon: 'success',
-          duration: 2000
-        })
       },
       complete: (res) => {
       }
     })
   },
 
-  setTime: function(event) {
+  setTime: function (event) {
     let value = event.currentTarget.dataset.value
     wx.showModal({
       title: '弹窗标题',
-      content: '当前使用的设备是：'+this.data.show+ '，当前选择使用时间为' + value + '分钟，价格为：' + value*0.2 + '元。',
+      content: '当前使用的设备是：' + this.data.show + '，当前选择使用时间为' + value + '分钟，价格为：' + value * 0.2 + '元。',
       confirmText: "确认支付",
       cancelText: "取消",
       success: function (res) {
@@ -118,7 +165,7 @@ Page({
       }
     });
   },
-  numberInput: function(e) {
+  numberInput: function (e) {
     this.setData({
       numbers: e.detail.value
     })
