@@ -17,8 +17,10 @@ Page({
     plain: false,
     loading: false,
     show: "",
-    numbers: "",
-    arr: [30, 60, 90, 120, 150, 180]
+    numbers: 0,
+    arr: [30, 60, 90, 120, 150, 180],
+    timeSelectWay: true,
+    disable: true
   },
 
   /**
@@ -52,16 +54,6 @@ Page({
         }
       })
     }
-  },
-  getUserInfo: function () {
-    wx.getUserInfo({
-      success: res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    })
   },
 
 
@@ -127,8 +119,10 @@ Page({
         if (result.match(/^(http:\/\/www.mobike.com\/download\/app.html)/)) {
           result = result.match(/(?<=\?b=).*/);
           this.setData({
-            show: result
-          })
+            show: result,
+            disable: this.data.show == "" || this.data.numbers == 0
+          });
+          console.log("设置设备号 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
         } else {
           wx.showModal({
             title: "提示",
@@ -148,30 +142,32 @@ Page({
     })
   },
 
-  setTime: function (event) {
-    let value = event.currentTarget.dataset.value
-    wx.showModal({
-      title: '弹窗标题',
-      content: '当前使用的设备是：' + this.data.show + '，当前选择使用时间为' + value + '分钟，价格为：' + value * 0.2 + '元。',
-      confirmText: "确认支付",
-      cancelText: "取消",
-      success: function (res) {
-        console.log(res);
-        if (res.confirm) {
-          console.log('用户点击主操作')
-        } else {
-          console.log('用户点击辅助操作')
-        }
-      }
+  setectTime: function (event) {
+    let btn_value = event.currentTarget.dataset.value
+    this.setData({
+      numbers: btn_value,
+      disable: this.data.show == "" || this.data.numbers == 0
     });
+    console.log(this.data.numbers);
+    console.log("选择时间 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
   },
   numberInput: function (e) {
     this.setData({
-      numbers: e.detail.value
+      numbers: e.detail.value,
+      disable: this.data.show=="" || this.data.numbers==0
+    });
+    console.log(e.detail.value);
+    console.log("输入数字 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
+  },
+  changeTimeSelectWay: function () {
+    this.setData({
+      timeSelectWay: this.data.timeSelectWay?false:true,
+      numbers: 0,
+      disable: true
     })
   },
 
-  bindKeyInput: function (event) {
+  submitButton: function (event) {
     let value = this.data.numbers;
     wx.showModal({
       title: '弹窗标题',

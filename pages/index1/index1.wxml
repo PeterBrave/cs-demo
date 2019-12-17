@@ -9,37 +9,41 @@
     <view class="time-area">
       <view class="time-notice-info">
         <view class="time-notice-text">选择使用时长：</view>
-        <view class="change-way">修改设定时间方式></view>
+        <view class="change-way" bindtap="changeTimeSelectWay">修改设定时间方式></view>
       </view>
 
-      <view class="swiper">
+      <view class="swiper {{timeSelectWay==true?'':'hide'}}">
         <scroll-view scroll-x="true">
           <view class="wrap" scroll-x="true">
             <view wx:for="{{arr}}" wx:key="index">
-              <button class="time-btn" type="default" size="mini" hover-class="time-btn-active" data-value="{{item}}">{{item}}分钟</button>
+              <view class="{{numbers==item ? 'time-btn-active' : 'time-btn'}}" data-value="{{item}}" bindtap="setectTime">{{item}}分钟</view>
             </view>
           </view>
         </scroll-view>
       </view>
 
-      <view class="widgets-item">
+      <view class="widgets-item {{timeSelectWay==false?'':'hide'}}">
         <view class="widhets-title">使用时长：</view>
-        <input class="time-input"  placeholder="填写时间" maxlength="4" type="number"></input>
+        <input class="time-input"  placeholder="填写时间" maxlength="4" type="number" bindinput="numberInput"></input>
         <view class="unit-text">分钟</view>
       </view>
 
-      
     </view>
     
+    <view class="detail-section">
+      <view class="detail-text">常见问题</view>
+      <view class="seprate-icon"></view>
+      <view class="detail-text">计费选择</view>
+    </view>
 
-  <button type="primary" bindtap="bindKeyInput">确定</button>
+    <button class="confiorm-button" bindtap="submitButton" disabled="{{disable}}">确定</button>
 
-
-  <view>计费规则</view>
-  
   </view>
-  <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
+  <view class="button-wrap">
+     <button class="scan-button" loading="{{loading}}" plain="{{plain}}"
         disabled="{{disabled}}" bindtap="scanQRCode"> 扫一扫 </button>
+  </view>
+ 
   
   
 

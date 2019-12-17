@@ -6,6 +6,7 @@
 }
 .userinfo {
   display: flex;
+  width: 100%;
   align-items: center;
   flex-direction: column;
   margin-top: 20px;
@@ -19,15 +20,12 @@
   margin: 20rpx;
   border-radius: 50%;
 }
-
 .userinfo-nickname {
   color: #aaa;
 }
-
-
-
 .body{
   position: relative;
+  top: 10px;
   padding-left: 15px;
   padding-right: 15px;
   overflow: hidden;
