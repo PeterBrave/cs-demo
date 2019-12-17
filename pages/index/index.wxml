@@ -1,13 +1,38 @@
 <!--index.wxml-->
 <view class="container">
+
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+
+
+
+  <view class="body">
+     <view class="menu">
+      <view class="sub-menu">
+        <image class="sub-menu-img" src="/images/icon_API.png"></image>
+        <view class="menu-name">我的钱包</view>
+        <image background-size="cover"class="widget__arrow"src="/images/arrow.png"role="img"></image>
+      </view>
+      <view class="sub-menu">
+        <image class="sub-menu-img" src="/images/icon_API.png"></image>
+        <view class="menu-name">常见问题</view>
+        <image background-size="cover"class="widget__arrow"src="/images/arrow.png"role="img"></image>
+      </view>
+      <view class="sub-menu">
+        <image class="sub-menu-img" src="/images/icon_API.png"></image>
+        <view class="menu-name">计费规则</view>
+        <image background-size="cover"class="widget__arrow"src="/images/arrow.png"role="img"></image>
+      </view> 
+      <view class="sub-menu">
+        <image class="sub-menu-img" src="/images/icon_API.png"></image>
+        <view class="menu-name">意见反馈</view>
+        <image background-size="cover"class="widget__arrow"src="/images/arrow.png"role="img"></image>
+      </view>   
+    </view>
   </view>
 </view>

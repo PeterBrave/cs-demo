@@ -18,7 +18,7 @@ Page({
     loading: false,
     show: "",
     numbers: "",
-    arr: [30, 60, 90, 120]
+    arr: [30, 60, 90, 120, 150, 180]
   },
 
   /**

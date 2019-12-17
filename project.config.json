@@ -17,7 +17,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.9.4",
 	"appid": "wx86a6f4bc94bf9856",
-	"projectname": "miniprogram-2",
+	"projectname": "cs-demo",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

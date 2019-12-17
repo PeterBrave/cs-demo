@@ -1,8 +1,16 @@
 /**index.wxss**/
+.container{
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+}
 .userinfo {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 15px;
+
 }
 
 .userinfo-avatar {
@@ -16,6 +24,47 @@
   color: #aaa;
 }
 
-.usermotto {
-  margin-top: 200px;
+
+
+.body{
+  position: relative;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: hidden;
+  width: 100%;
 }
+
+.menu{
+    position: relative;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.sub-menu{
+    margin: 0 16px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-name{
+    flex: 1;
+}
+.sub-menu-img{
+    width: 40px;
+    height: 40px;
+    margin-top:8px;
+    margin-bottom: 8px;
+    margin-right: 10px; 
+}
+.widget__arrow{
+    margin-right: 10px;
+    width: 8px;
+    height: 16px;
+}
+  

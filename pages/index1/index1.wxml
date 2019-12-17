@@ -1,33 +1,46 @@
-<view>
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  
-  <view>当前设备号：</view>
-  <view>{{show}}</view>
-  <view>选择使用时常：</view>
-  <view wx:for="{{arr}}" wx:key="index">
-    <button type="default" size="mini" bindtap="setTime" data-value="{{item}}">{{item}}分钟</button>
-  </view>
+<view class="index-container">
 
-  <view class="page-section">
-    <view class="weui-cells__title">数字输入的input</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <input class="weui-input" type="number" bindinput="numberInput" placeholder="这是一个数字输入框" maxlength="5"/>
-      </view>
+  <view class="index-body">
+    <view class="widgets-item">
+      <view class="widhets-title">当前设备号：</view>
+      <input class="widgets-input" value="{{show}}" disabled="true" placeholder="扫一扫获取设备信息"></input>
     </view>
-  </view>
+    
+    <view class="time-area">
+      <view class="time-notice-info">
+        <view class="time-notice-text">选择使用时长：</view>
+        <view class="change-way">修改设定时间方式></view>
+      </view>
+
+      <view class="swiper">
+        <scroll-view scroll-x="true">
+          <view class="wrap" scroll-x="true">
+            <view wx:for="{{arr}}" wx:key="index">
+              <button class="time-btn" type="default" size="mini" hover-class="time-btn-active" data-value="{{item}}">{{item}}分钟</button>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <view class="widgets-item">
+        <view class="widhets-title">使用时长：</view>
+        <input class="time-input"  placeholder="填写时间" maxlength="4" type="number"></input>
+        <view class="unit-text">分钟</view>
+      </view>
+
+      
+    </view>
+    
 
   <button type="primary" bindtap="bindKeyInput">确定</button>
 
 
   <view>计费规则</view>
+  
+  </view>
   <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
         disabled="{{disabled}}" bindtap="scanQRCode"> 扫一扫 </button>
+  
+  
 
 </view>

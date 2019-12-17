@@ -1,5 +1,19 @@
 /** wxss **/
 /** 修改button默认的点击态样式类**/
+.index-container{
+  background-color: #FBF9FE;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.index-body{
+  position: relative;
+  top: 12px;
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow: hidden;
+}
 .button-hover {
   background-color: red;
 }
@@ -9,23 +23,73 @@
 }
 button {margin: 10px;}
 
-.userinfo {
+.widgets-item{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 50px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.widhets-title {
+  margin-left: 10px;
 }
-
-.userinfo-nickname {
-  color: #aaa;
+.widgets-input{
+  margin-right: 10px;
+  overflow: hidden;
+  text-align: right;
 }
+.time-notice-info{
+  margin-left: 8px;
+  margin-right: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.time-notice-text{
+  font-size: 12px;
+}
+.change-way{
+  font-size: 12px;
+  color: green;
+}
+.swiper{
+  height: 80px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.time-btn{
 
-.usermotto {
-  margin-top: 200px;
+}
+.time-btn-active{
+  color: green;
+  border: 1px solid green;
+  background-color: transparent;
+  
+}
+.wrap{
+  width:100%; 
+  display: flex; 
+  display: -webkit-box; 
+  flex-direction: column;
+}  
+.unit-text{
+  margin-right: 10px;
+}
+.time-input{
+  margin-right: 10px;
+  overflow: hidden;
+  text-align: right;
+  float: right;
 }
