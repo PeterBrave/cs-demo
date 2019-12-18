@@ -19,8 +19,7 @@ Page({
     show: "",
     numbers: 0,
     arr: [30, 60, 90, 120, 150, 180],
-    timeSelectWay: true,
-    disable: true
+    timeSelectWay: true
   },
 
   /**
@@ -33,7 +32,7 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse) {
+    }else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -117,12 +116,11 @@ Page({
         //对res进行预处理
         var result = res.result;
         if (result.match(/^(http:\/\/www.mobike.com\/download\/app.html)/)) {
-          result = result.match(/(?<=\?b=).*/);
+          result = result.match(/\?b=(.*)/)[1];
+          console.log("result = "+result)
           this.setData({
             show: result,
-            disable: this.data.show == "" || this.data.numbers == 0
           });
-          console.log("设置设备号 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
         } else {
           wx.showModal({
             title: "提示",
@@ -143,46 +141,96 @@ Page({
   },
 
   setectTime: function (event) {
-    let btn_value = event.currentTarget.dataset.value
+    let btn_value = event.currentTarget.dataset.value;
     this.setData({
       numbers: btn_value,
-      disable: this.data.show == "" || this.data.numbers == 0
     });
     console.log(this.data.numbers);
-    console.log("选择时间 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
   },
   numberInput: function (e) {
     this.setData({
       numbers: e.detail.value,
-      disable: this.data.show=="" || this.data.numbers==0
     });
     console.log(e.detail.value);
-    console.log("输入数字 disable status：" + this.data.disable + " numbers：" + this.data.numbers + " show:" + this.data.show);
   },
   changeTimeSelectWay: function () {
     this.setData({
       timeSelectWay: this.data.timeSelectWay?false:true,
       numbers: 0,
-      disable: true
     })
   },
 
   submitButton: function (event) {
-    let value = this.data.numbers;
-    wx.showModal({
-      title: '弹窗标题',
-      content: '当前使用的设备是：' + this.data.show + '，当前选择使用时间为' + value + '分钟，价格为：' + value * 0.2 + '元。',
-      confirmText: "确认支付",
-      cancelText: "取消",
+    let time = this.data.numbers;
+    let deviceId = this.data.show;
+    //加入登陆判断，如果用户不登陆，则跳转到用户页面，引导用户登陆，否则无法使用该服务！后期进行解耦
+    wx.getSetting({
       success: function (res) {
-        console.log(res);
-        if (res.confirm) {
-          console.log('用户点击主操作')
+        if (!res.authSetting['scope.userInfo']) {
+          //未登录,跳转到登录页
+          console.log("用户未登陆");
+          wx.showModal({
+            title: "提示",
+            content: "请登陆后使用",
+            showCancel: false,
+            confirmText: "确定",
+            success: function (res) {
+              wx.switchTab({
+                url: '/pages/index/index',
+              })
+            }
+          })
+          
+        } else if (deviceId == "" && time == 0) {
+          wx.showModal({
+            title: "输入错误",
+            content: "请扫描设备二维码，并输入使用时长！",
+            showCancel: false,
+            confirmText: "确定",
+            success: function (res) {
+              console.log(res)
+            }
+          })
+        } else if (deviceId == "") {
+          wx.showModal({
+            title: "输入错误",
+            content: "请扫描设备二维码",
+            showCancel: false,
+            confirmText: "确定",
+            success: function (res) {
+              console.log(res)
+            }
+          })
+        } else if (time == 0) {
+          wx.showModal({
+            title: "输入错误",
+            content: "请输入使用时长！",
+            showCancel: false,
+            confirmText: "确定",
+            success: function (res) {
+              console.log(res)
+            }
+          })
         } else {
-          console.log('用户点击辅助操作')
+          wx.showModal({
+            title: '弹窗标题',
+            content: '当前使用的设备是：' + deviceId + '，当前选择使用时间为' + time + '分钟，价格为：' + (time * 0.2).toFixed(2) + '元。',
+            confirmText: "确认支付",
+            cancelText: "取消",
+            success: function (res) {
+              console.log(res);
+              if (res.confirm) {
+                console.log('用户点击主操作')
+              } else {
+                console.log('用户点击辅助操作')
+              }
+            }
+          });
         }
       }
-    });
+    })
+    
+    
   },
 
 })
